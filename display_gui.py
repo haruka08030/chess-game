@@ -1,23 +1,11 @@
-# Import Modules & Libraries
-from os import system, name
 import pygame, chess, math
 import global_vars as G
 
-# Clear Output & Print Game Start
-def clear():
-    if name == 'nt':
-        _ = system('cls')
-    else:
-        _ = system('clear')
-clear()
-print('---------------------------------------')
 
-# Pygame Initializations
 pygame.init()
 pygame.font.init()
 pygame.display.init()
 
-# Load Chess Game Pieces
 w_king_img = pygame.image.load('images/w_king.png')
 w_queen_img = pygame.image.load('images/w_queen.png')
 w_bishop_img = pygame.image.load('images/w_bishop.png')
@@ -31,7 +19,6 @@ b_knight_img = pygame.image.load('images/b_knight.png')
 b_rook_img = pygame.image.load('images/b_rook.png')
 b_pawn_img = pygame.image.load('images/b_pawn.png')
 
-# Set System Font Information
 font_size = math.floor(G.LABEL_SIZE * 0.8)
 label_font = pygame.font.SysFont('freemono', font_size, True)
 result_size = math.floor(G.TILE_SIZE * 0.5)

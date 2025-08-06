@@ -1,4 +1,3 @@
-# Import necessary modules
 import global_vars as G
 import display_gui as gui
 import ai_algorithms as ai

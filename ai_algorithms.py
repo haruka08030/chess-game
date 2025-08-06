@@ -1,7 +1,66 @@
-# Import Modules & Libraries
 import global_vars as G
 import display_gui as gui
 import chess, random, time
+
+pawn_score = [
+    0, 0, 0, 0, 0, 0, 0, 0,
+    5, 10, 10, -20, -20, 10, 10, 5,
+    5, -5, -10, 0, 0, -10, -5, 5,
+    0, 0, 0, 20, 20, 0, 0, 0,
+    5, 5, 10, 25, 25, 10, 5, 5,
+    10, 10, 20, 30, 30, 20, 10, 10,
+    50, 50, 50, 50, 50, 50, 50, 50,
+    0, 0, 0, 0, 0, 0, 0, 0]
+
+knight_score = [
+    -50, -40, -30, -30, -30, -30, -40, -50,
+    -40, -20, 0, 5, 5, 0, -20, -40,
+    -30, 5, 10, 15, 15, 10, 5, -30,
+    -30, 0, 15, 20, 20, 15, 0, -30,
+    -30, 5, 15, 20, 20, 15, 5, -30,
+    -30, 0, 10, 15, 15, 10, 0, -30,
+    -40, -20, 0, 0, 0, 0, -20, -40,
+    -50, -40, -30, -30, -30, -30, -40, -50]
+
+bishop_score = [
+    -20, -10, -10, -10, -10, -10, -10, -20,
+    -10, 5, 0, 0, 0, 0, 5, -10,
+    -10, 10, 10, 10, 10, 10, 10, -10,
+    -10, 0, 10, 10, 10, 10, 0, -10,
+    -10, 5, 5, 10, 10, 5, 5, -10,
+    -10, 0, 5, 10, 10, 5, 0, -10,
+    -10, 0, 0, 0, 0, 0, 0, -10,
+    -20, -10, -10, -10, -10, -10, -10, -20]
+
+rook_score = [
+    0, 0, 0, 5, 5, 0, 0, 0,
+    -5, 0, 0, 0, 0, 0, 0, -5,
+    -5, 0, 0, 0, 0, 0, 0, -5,
+    -5, 0, 0, 0, 0, 0, 0, -5,
+    -5, 0, 0, 0, 0, 0, 0, -5,
+    -5, 0, 0, 0, 0, 0, 0, -5,
+    5, 10, 10, 10, 10, 10, 10, 5,
+    0, 0, 0, 0, 0, 0, 0, 0]
+
+queen_score = [
+    -20, -10, -10, -5, -5, -10, -10, -20,
+    -10, 0, 0, 0, 0, 0, 0, -10,
+    -10, 5, 5, 5, 5, 5, 0, -10,
+    0, 0, 5, 5, 5, 5, 0, -5,
+    -5, 0, 5, 5, 5, 5, 0, -5,
+    -10, 0, 5, 5, 5, 5, 0, -10,
+    -10, 0, 0, 0, 0, 0, 0, -10,
+    -20, -10, -10, -5, -5, -10, -10, -20]
+
+king_score = [
+    20, 30, 10, 0, 0, 10, 30, 20,
+    20, 20, 0, 0, 0, 0, 20, 20,
+    -10, -20, -20, -20, -20, -20, -20, -10,
+    -20, -30, -30, -40, -40, -30, -30, -20,
+    -30, -40, -40, -50, -50, -40, -40, -30,
+    -30, -40, -40, -50, -50, -40, -40, -30,
+    -30, -40, -40, -50, -50, -40, -40, -30,
+    -30, -40, -40, -50, -50, -40, -40, -30]
 
 # Select Random Move
 def select_random():
@@ -41,12 +100,12 @@ def calc_board_score():
     w_queens = G.BOARD.pieces(chess.QUEEN, chess.WHITE)
     w_kings = G.BOARD.pieces(chess.KING, chess.WHITE)
 
-    w_score_p = sum([G.pawn_score[p] for p in w_pawns])
-    w_score_n = sum([G.knight_score[p] for p in w_knights])
-    w_score_b = sum([G.bishop_score[p] for p in w_bishops])
-    w_score_r = sum([G.rook_score[p] for p in w_rooks])
-    w_score_q = sum([G.queen_score[p] for p in w_queens])
-    w_score_k = sum([G.king_score[p] for p in w_kings])
+    w_score_p = sum([pawn_score[p] for p in w_pawns])
+    w_score_n = sum([knight_score[p] for p in w_knights])
+    w_score_b = sum([bishop_score[p] for p in w_bishops])
+    w_score_r = sum([rook_score[p] for p in w_rooks])
+    w_score_q = sum([queen_score[p] for p in w_queens])
+    w_score_k = sum([king_score[p] for p in w_kings])
 
     b_pawns = G.BOARD.pieces(chess.PAWN, chess.BLACK)
     b_knights = G.BOARD.pieces(chess.KNIGHT, chess.BLACK)
@@ -55,12 +114,12 @@ def calc_board_score():
     b_queens = G.BOARD.pieces(chess.QUEEN, chess.BLACK)
     b_kings = G.BOARD.pieces(chess.KING, chess.BLACK)
 
-    b_score_p = sum([-G.pawn_score[chess.square_mirror(p)] for p in b_pawns])
-    b_score_n = sum([-G.knight_score[chess.square_mirror(p)] for p in b_knights])
-    b_score_b = sum([-G.bishop_score[chess.square_mirror(p)] for p in b_bishops])
-    b_score_r = sum([-G.rook_score[chess.square_mirror(p)] for p in b_rooks])
-    b_score_q = sum([-G.queen_score[chess.square_mirror(p)] for p in b_queens])
-    b_score_k = sum([-G.king_score[chess.square_mirror(p)] for p in b_kings])
+    b_score_p = sum([pawn_score[chess.square_mirror(p)] for p in b_pawns])
+    b_score_n = sum([knight_score[chess.square_mirror(p)] for p in b_knights])
+    b_score_b = sum([bishop_score[chess.square_mirror(p)] for p in b_bishops])
+    b_score_r = sum([rook_score[chess.square_mirror(p)] for p in b_rooks])
+    b_score_q = sum([queen_score[chess.square_mirror(p)] for p in b_queens])
+    b_score_k = sum([king_score[chess.square_mirror(p)] for p in b_kings])
 
     pawns = len(w_pawns) - len(b_pawns)
     knights = len(w_knights) - len(b_knights)
@@ -112,8 +171,6 @@ def negamax_ab(alpha, beta, depthleft):
         if score > alpha:
             alpha = score
     return high_score
-
-# Quiescence Search
 
 # Select Predictive Move
 def select_predictive(depth):
